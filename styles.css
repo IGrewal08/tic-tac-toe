@@ -4,6 +4,7 @@
     padding: 0;
     margin: 0;
     font-family: 'Pixelify Sans', sans-serif;
+    letter-spacing: 8px;
     color: rgb(248, 248, 255);
 }
 
@@ -34,8 +35,81 @@
     font-size: 50px;
 }
 
+.menu {
+    background-color: rgb(195, 231, 249);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: baseline;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu.hide{
+    visibility: hidden;
+}
+
+.title {
+    font-size: 150px;
+    padding-top: 0.35em;
+}
+
+form {
+    display: flex;
+    margin-top: 12em;
+    gap: 7em;
+
+}
+.input_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+
+label {
+    font-size: 20px;
+}
+
+input {
+    padding: 0.5em 0 0.5em 0;
+    font-size: 25px;
+    border-radius: 8px;
+    color: rgb(146, 146, 146);
+    text-align: center;
+    border: none;
+    outline: 4px dashed white;
+}
+
+input::placeholder {
+    color: rgb(228, 228, 228);
+}
+
+input:focus{
+    outline: 3px dashed rgb(146, 146, 146);
+}
+
+.start {
+    font-size: 80px;
+    margin-top: 1em;
+    outline-style: none;
+    outline: none;
+    border: none;
+    background-color:rgba(248, 248, 255, 0.05);
+    color: rgb(146, 146, 146);
+}
+
+.start:hover {
+    color: white;
+    background-color: rgba(248, 248, 255, 0);
+    text-shadow: 0.5px 0.5px 0.45em rgb(228, 228, 228);
+}
+
 .modal {
-    background-color: rgb(0, 0, 0, 0.3);
+    background-color: rgb(0, 0, 0, 0.7);
     position: fixed;
     top: 0;
     left: 0;
@@ -44,7 +118,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     z-index: -1;
 }
 
@@ -70,6 +143,8 @@
 .modal button {
     font-size: 16px;
     min-width: 5em;
+    border: none;
+    padding: 1em;
     border-radius: 8px;
     background-color:ghostwhite;
     color: rgb(146, 146, 146);
@@ -82,7 +157,7 @@
     grid-template-rows: repeat(3, 1fr);
 }
 
-button {
+.board {
     outline-style: none;
     outline: none;
     border: none;
@@ -103,5 +178,5 @@ button[column="1"] {
 
 button:hover,
 span:hover {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(238, 238, 238, 0.3);
 }

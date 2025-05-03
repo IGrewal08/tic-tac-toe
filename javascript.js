@@ -17,12 +17,18 @@ const game = (function() {
                 console.log(Gameboard.board[i]);
             }
         }
-     } // what you return is what you can access
+     }
 })();
 
 const elements = {
-    player1_Score: document.querySelector('#score1'),
-    player2_Score: document.querySelector('#score2'),
+    startDiv: document.querySelector('.menu'),
+    player1_name: document.querySelector('#player_1'),
+    player2_name: document.querySelector('#player_2'),
+    start: document.querySelector('#start'),
+    player1_display_name: document.querySelector('#X #name'),
+    player2_display_name: document.querySelector('#O #name'),
+    player1_Score: document.querySelector('#X #score'),
+    player2_Score: document.querySelector('#O #score'),
     buttons: document.querySelectorAll('.board'),
     modal: document.querySelector('#modal'),
     message: document.querySelector('#end-game-message'),
@@ -82,8 +88,10 @@ function players() {
     return { 
         player,
         setName() {
-            this.player[0].name = 'Joe' // fix with dialog box
-            this.player[1].name = 'rogan' // fix with dialog box
+            this.player[0].name = elements.player1_name.value;
+            this.player[1].name = elements.player2_name.value;
+            elements.player1_display_name.textContent = `${this.player[0].name} X`;
+            elements.player2_display_name.textContent = `${this.player[1].name} O`;
         },
         getName(currentPlayer) {
             let temp;
@@ -94,6 +102,10 @@ function players() {
             });
             console.log(temp.name);
             return temp.name;
+        },
+        setscore() {
+            elements.player1_Score.textContent = this.player[0].score;
+            elements.player2_Score.textContent = this.player[0].score;
         },
         appendScore(currentPlayer) {
             let temp;
@@ -108,7 +120,7 @@ function players() {
     }
 }
 
-function newGame(anotherGame) {
+function newGame() {
     function resetBoard() {
         game.Gameboard.board = [
             ['A', 'B', 'C'],
@@ -124,6 +136,13 @@ function newGame(anotherGame) {
         return flow();
     }
     return { resetBoard }
+}
+
+function createNewPlayers() {
+    elements.modal.classList.remove("open");
+    elements.player1_name.value = '';
+    elements.player2_name.value = '';
+    return players();
 }
 
 function runEventListener() {
@@ -145,14 +164,12 @@ function runEventListener() {
                     elements.modal.classList.add("open");
                     break;
                 }
-                default: 
-                    // updating score and getting score
+                default:
                     const selectScore = document.querySelector(`.player#${currentPlayer} > #score`);
                     selectScore.textContent = newPlayers.appendScore(currentPlayer);
     
-                    elements.message.textContent = `Player ${newPlayers.getName(currentPlayer)} has won the game!`;
+                    elements.message.textContent = `${newPlayers.getName(currentPlayer)} has won the game!`;
                     elements.modal.classList.add("open");
-    
             }
             game.printArray(); // print current array in console
         });
@@ -160,17 +177,26 @@ function runEventListener() {
     
     elements.replay.forEach((button) => {
         button.addEventListener('click', (event) => {
-            if (event.target.getAttribute('id') == 'replay') {
-                // replay
-            } else if (event.target.getAttribute('id') == 'reset') {
-                newPlayers = players();
+            if (event.target.getAttribute('id') == 'reset') {
+                elements.startDiv.classList.remove('hide');
+                newPlayers = createNewPlayers();
+                newPlayers.setName();
+                newPlayers.setscore();
             }
             playGame = newGame(playGame).resetBoard();
         });
     });
+
+    elements.start.addEventListener('click', (event) => {
+        event.target.parentNode.classList.add("hide");
+        newPlayers.setName();
+    });
 }
 
 let playGame = flow();
-const newPlayers = players();
-newPlayers.setName(); //work on this (make a start-up menu when you first load the page (and re-publish it when you press reset button))
+let newPlayers = players();
 runEventListener();
+
+/*
+minor bugs in checkpattern() logic...
+*/
