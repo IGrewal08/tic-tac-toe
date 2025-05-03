@@ -59,15 +59,19 @@ function flow() {
         },
         checkPattern: function() {
             for (let i = 0; i <= 2; i++) {
-                if (
-                    game.Gameboard.board[i][0].match((game.Gameboard.board[i][1]).match(game.Gameboard.board[i][2])) ||
-                    game.Gameboard.board[0][i].match((game.Gameboard.board[1][i]).match(game.Gameboard.board[2][i])))
+                if (game.Gameboard.board[i][0] === game.Gameboard.board[i][1] && 
+                    game.Gameboard.board[i][1] === game.Gameboard.board[i][2] ||
+                    game.Gameboard.board[0][i] === game.Gameboard.board[1][i] && 
+                    game.Gameboard.board[1][i] === game.Gameboard.board[2][i] )
                 {
                     return this.getCurrent();
                 }
             }
-            if (game.Gameboard.board[0][0].match((game.Gameboard.board[1][1]).match(game.Gameboard.board[2][2])) ||
-                game.Gameboard.board[0][2].match((game.Gameboard.board[1][1]).match(game.Gameboard.board[2][0]))) {
+            if (game.Gameboard.board[0][0] === game.Gameboard.board[1][1] && 
+                game.Gameboard.board[1][1] === game.Gameboard.board[2][2] || 
+                game.Gameboard.board[0][2] === game.Gameboard.board[1][1] && 
+                game.Gameboard.board[1][1] === game.Gameboard.board[2][0] ) 
+            {
                     return this.getCurrent();
             }
             if (this.getTurn() == 9) {
@@ -96,7 +100,7 @@ function players() {
         getName(currentPlayer) {
             let temp;
             this.player.forEach(obj => {
-                if(obj.symbol == currentPlayer) {
+                if (obj.symbol == currentPlayer) {
                     temp = obj;
                 }
             });
@@ -110,7 +114,7 @@ function players() {
         appendScore(currentPlayer) {
             let temp;
             this.player.forEach(obj => {
-                if(obj.symbol == currentPlayer) {
+                if (obj.symbol == currentPlayer) {
                     obj.score += 1;
                     temp = obj;
                 }
@@ -157,7 +161,7 @@ function runEventListener() {
             game.setData(row, column, playGame.getCurrent());
             console.log(playGame.getTurn());
     
-            switch(playGame.checkPattern()) {
+            switch (playGame.checkPattern()) {
                 case false:  break;
                 case 'Tie': { 
                     elements.message.textContent = `Both players have drawn the game!`;
@@ -196,7 +200,3 @@ function runEventListener() {
 let playGame = flow();
 let newPlayers = players();
 runEventListener();
-
-/*
-minor bugs in checkpattern() logic...
-*/
