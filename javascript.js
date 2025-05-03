@@ -1,112 +1,176 @@
-const game = playGame();
-const board = game.Gameboard;
-
-function playGame () {
+const game = (function() {
     const Gameboard = {
-        gameboard: [
+        board: [
             ['A', 'B', 'C'],
             ['D', 'F', 'G'],
             ['H', 'I', 'J']
         ]
-    };
+    }
 
-    return { Gameboard };
+    return { 
+        Gameboard,
+        setData: function(row, column, newValue) {
+            Gameboard.board[row][column] = newValue;
+        },
+        printArray: function() {
+            for (let i = 0; i <= Gameboard.board.length; i++) {
+                console.log(Gameboard.board[i]);
+            }
+        }
+     } // what you return is what you can access
+})();
 
-}
+const elements = {
+    player1_Score: document.querySelector('#score1'),
+    player2_Score: document.querySelector('#score2'),
+    buttons: document.querySelectorAll('.board'),
+    modal: document.querySelector('#modal'),
+    message: document.querySelector('#end-game-message'),
+    replay: document.querySelectorAll('.play-again-buttons')
 
-const gameState = (function (board) {
+};
 
-    const player1 = {
-        symbol: 'X',
-        score: 0
-    };
-    
-    const player2 = {
-        symbol: 'O',
-        score: 0
-    };
-    /*
-        Create functions to get and set player1 and player2 scores
-        const giveScore = winningplayer.score +1?
-        const getScore1 = player1.score;
-        const getScore2 = player2.score;
-    */
-
+function flow() {
     const gameFlow = {
-
         current: 'X',
+        turn: 1
+    }
 
-        check() {
+    return {
+        gameFlow,
+        getCurrent: function() {
+            return gameFlow.current;
+        },
+        setCurrent: function() {
+            gameFlow.current = gameFlow.current === 'X' ? 'O': 'X';
+            this.appendTurn();
+        },
+        appendTurn: function() {
+            gameFlow.turn += 1;
+        },
+        getTurn: function() {
+            return gameFlow.turn;
+        },
+        checkPattern: function() {
             for (let i = 0; i <= 2; i++) {
                 if (
-                    board.gameboard[i][0].match((board.gameboard[i][1]).match(board.gameboard[i][2])) ||
-                    board.gameboard[0][i].match((board.gameboard[1][i]).match(board.gameboard[2][i])) )
+                    game.Gameboard.board[i][0].match((game.Gameboard.board[i][1]).match(game.Gameboard.board[i][2])) ||
+                    game.Gameboard.board[0][i].match((game.Gameboard.board[1][i]).match(game.Gameboard.board[2][i])))
                 {
-                    return true;
+                    return this.getCurrent();
                 }
             }
-            if (board.gameboard[0][0].match((board.gameboard[1][1]).match(board.gameboard[2][2])) ||
-                board.gameboard[0][2].match((board.gameboard[1][1]).match(board.gameboard[2][0]))) 
-            {
-                return true;
+            if (game.Gameboard.board[0][0].match((game.Gameboard.board[1][1]).match(game.Gameboard.board[2][2])) ||
+                game.Gameboard.board[0][2].match((game.Gameboard.board[1][1]).match(game.Gameboard.board[2][0]))) {
+                    return this.getCurrent();
             }
+            if (this.getTurn() == 9) {
+                    return 'Tie';
+            }
+            this.setCurrent();
             return false;
-        },
-        changeCurrent() {
-            let temp = this.current;
-            this.current = this.current === 'X' ? 'O' : 'X';
-            return temp;
         }
-    };
-    return { player1, player2, gameFlow };
-
-})(board);
-
-//calling a IIFE function below
-//console.log(gameState.gameFlow.check());
-
-console.log(gameState.gameFlow.check());
-//board.gameboard[1][1] = gameState.gameFlow.changeCurrent(); //x
-board.gameboard[0][0] = gameState.gameFlow.changeCurrent();
-console.log(gameState.gameFlow.check());
-board.gameboard[1][1] = gameState.gameFlow.changeCurrent();
-console.log(gameState.gameFlow.check());
-board.gameboard[1][1] = gameState.gameFlow.changeCurrent();
-console.log(gameState.gameFlow.check());
-board.gameboard[2][1] = gameState.gameFlow.changeCurrent();
-console.log(gameState.gameFlow.check());
-board.gameboard[2][2] = gameState.gameFlow.changeCurrent();
-console.log(gameState.gameFlow.check());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function printGameboard (board) {
-    for (let i = 0; i <= 2; i++) {
-        console.log(board.gameboard[i][0] + ' ' + board.gameboard[i][1] + ' ' + board.gameboard[i][2]);
     }
 }
-printGameboard(board);
+
+function players() {
+    const player = [
+        { name: '', symbol: 'X', score: 0 },
+        { name: '', symbol: 'O', score: 0 }
+    ];
+
+    return { 
+        player,
+        setName() {
+            this.player[0].name = 'Joe' // fix with dialog box
+            this.player[1].name = 'rogan' // fix with dialog box
+        },
+        getName(currentPlayer) {
+            let temp;
+            this.player.forEach(obj => {
+                if(obj.symbol == currentPlayer) {
+                    temp = obj;
+                }
+            });
+            console.log(temp.name);
+            return temp.name;
+        },
+        appendScore(currentPlayer) {
+            let temp;
+            this.player.forEach(obj => {
+                if(obj.symbol == currentPlayer) {
+                    obj.score += 1;
+                    temp = obj;
+                }
+            });
+            return temp.score;
+        }
+    }
+}
+
+function newGame(anotherGame) {
+    function resetBoard() {
+        game.Gameboard.board = [
+            ['A', 'B', 'C'],
+            ['D', 'F', 'G'],
+            ['H', 'I', 'J']
+        ];
+
+        elements.buttons.forEach((button) => {
+            button.textContent = '';
+            button.removeAttribute('disabled');
+        });
+        elements.modal.classList.remove("open");
+        return flow();
+    }
+    return { resetBoard }
+}
+
+function runEventListener() {
+    elements.buttons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            event.target.disabled = true;
+            const row = event.target.getAttribute('row');
+            const column = event.target.getAttribute('column');
+    
+            const currentPlayer = playGame.getCurrent();
+            event.target.textContent = currentPlayer;
+            game.setData(row, column, playGame.getCurrent());
+            console.log(playGame.getTurn());
+    
+            switch(playGame.checkPattern()) {
+                case false:  break;
+                case 'Tie': { 
+                    elements.message.textContent = `Both players have drawn the game!`;
+                    elements.modal.classList.add("open");
+                    break;
+                }
+                default: 
+                    // updating score and getting score
+                    const selectScore = document.querySelector(`.player#${currentPlayer} > #score`);
+                    selectScore.textContent = newPlayers.appendScore(currentPlayer);
+    
+                    elements.message.textContent = `Player ${newPlayers.getName(currentPlayer)} has won the game!`;
+                    elements.modal.classList.add("open");
+    
+            }
+            game.printArray(); // print current array in console
+        });
+    });
+    
+    elements.replay.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            if (event.target.getAttribute('id') == 'replay') {
+                // replay
+            } else if (event.target.getAttribute('id') == 'reset') {
+                newPlayers = players();
+            }
+            playGame = newGame(playGame).resetBoard();
+        });
+    });
+}
+
+let playGame = flow();
+const newPlayers = players();
+newPlayers.setName(); //work on this (make a start-up menu when you first load the page (and re-publish it when you press reset button))
+runEventListener();

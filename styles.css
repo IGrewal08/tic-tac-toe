@@ -1,23 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
 * {
     padding: 0;
     margin: 0;
+    font-family: 'Pixelify Sans', sans-serif;
+    color: rgb(248, 248, 255);
 }
 
 .container {
     display: grid;
     grid-template-rows: 1fr 5fr 1fr;
     height: 100vh;
-    background-color: rgb(254, 225, 236);
+    background-color: rgb(195, 231, 249);
 }
 
 .header {
-    color: rgb(61, 61, 61);
+    color: rgb(106, 106, 106);
     padding-top: 1em;
     text-align: center;
-    background-color: rgb(229, 253, 241);
+    background-color: rgb(195, 231, 249);
 }
 
-#scores {
+#players {
+    margin-top: 2em;
     font-size: 16px;
     display: flex;
     justify-content: center;
@@ -25,35 +30,78 @@
 
 }
 
-span {
-    font-size: 26px;
+#score {
+    font-size: 50px;
+}
+
+.modal {
+    background-color: rgb(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: -1;
+}
+
+.modal.open {
+    opacity: 1;
+    z-index: 999;
+}
+
+.modal-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.play-again-buttons {
+    margin-top: 1em;
+    display: flex;
+    gap: 16px;
+
+}
+
+.modal button {
+    font-size: 16px;
+    min-width: 5em;
+    border-radius: 8px;
+    background-color:ghostwhite;
+    color: rgb(146, 146, 146);
 }
 
 .content {
-    margin: 0 20em 0 20em;
+    margin: 2em 22em 0 22em;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
 }
 
-.footer {
-    padding-top: 3em;
-    text-align: center;
-    color: rgb(61, 61, 61);
-    background-color: rgb(229, 239, 253);
-}
-
 button {
     outline-style: none;
-    background-color: white;
     outline: none;
-    border: 1px solid rgb(212, 212, 219);
-    background-color:ghostwhite;
-    font-size: 150px;
+    border: none;
+    background-color:rgba(248, 248, 255, 0.05);
+    font-size: 8em;
     color: rgb(146, 146, 146);
+}
+
+button[row="0"],
+button[row="1"] {
+    border-bottom: 2px dashed rgb(248, 248, 255, 0.7);
+}
+
+button[column="0"],
+button[column="1"] {
+    border-right: 2px dashed rgb(248, 248, 255, 0.7);
 }
 
 button:hover,
 span:hover {
-    background-color: rgb(212, 212, 219);
+    background-color: rgba(255, 255, 255, 0.5);
 }
