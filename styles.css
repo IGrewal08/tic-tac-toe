@@ -8,18 +8,26 @@
     color: rgb(248, 248, 255);
 }
 
+:root {
+    --main-bg-color: rgb(195, 231, 249);
+    --dark-font-color: rgb(146, 146, 146);
+    --board-lines-color: rgb(248, 248, 255, 0.7);
+    --light-input-color: rgb(228, 228, 228);
+    --dark-input-color: rgba(248, 248, 255, 0.05);
+}
+
 .container {
     display: grid;
     grid-template-rows: 1fr 5fr 1fr;
     height: 100vh;
-    background-color: rgb(195, 231, 249);
+    background-color: var(--main-bg-color);
 }
 
 .header {
     color: rgb(106, 106, 106);
     padding-top: 1em;
     text-align: center;
-    background-color: rgb(195, 231, 249);
+    background-color: var(--main-bg-color);
 }
 
 #players {
@@ -35,8 +43,12 @@
     font-size: 50px;
 }
 
+#score:hover {
+    color: var(--dark-font-color);
+}
+
 .menu {
-    background-color: rgb(195, 231, 249);
+    background-color: var(--main-bg-color);
     position: fixed;
     top: 0;
     left: 0;
@@ -78,18 +90,18 @@ input {
     padding: 0.5em 0 0.5em 0;
     font-size: 25px;
     border-radius: 8px;
-    color: rgb(146, 146, 146);
+    color: var(--dark-font-color);
     text-align: center;
     border: none;
     outline: 4px dashed white;
 }
 
 input::placeholder {
-    color: rgb(228, 228, 228);
+    color: var(--light-input-color);
 }
 
 input:focus{
-    outline: 3px dashed rgb(146, 146, 146);
+    outline: 3px dashed var(--dark-font-color);
 }
 
 .start {
@@ -98,14 +110,14 @@ input:focus{
     outline-style: none;
     outline: none;
     border: none;
-    background-color:rgba(248, 248, 255, 0.05);
-    color: rgb(146, 146, 146);
+    background-color:var(--dark-input-color);
+    color: var(--dark-font-color);
 }
 
 .start:hover {
     color: white;
     background-color: rgba(248, 248, 255, 0);
-    text-shadow: 0.5px 0.5px 0.45em rgb(228, 228, 228);
+    text-shadow: 0.5px 0.5px 0.45em var(--light-input-color);
 }
 
 .modal {
@@ -147,7 +159,7 @@ input:focus{
     padding: 1em;
     border-radius: 8px;
     background-color:ghostwhite;
-    color: rgb(146, 146, 146);
+    color: var(--dark-font-color);
 }
 
 .content {
@@ -158,22 +170,21 @@ input:focus{
 }
 
 .board {
-    outline-style: none;
     outline: none;
     border: none;
-    background-color:rgba(248, 248, 255, 0.05);
+    background-color: var(--dark-input-color);
     font-size: 8em;
-    color: rgb(146, 146, 146);
+    color: var(--dark-font-color);
 }
 
 button[row="0"],
 button[row="1"] {
-    border-bottom: 2px dashed rgb(248, 248, 255, 0.7);
+    border-bottom: 2px dashed var(--board-lines-color);
 }
 
 button[column="0"],
 button[column="1"] {
-    border-right: 2px dashed rgb(248, 248, 255, 0.7);
+    border-right: 2px dashed var(--board-lines-color);
 }
 
 button:hover,
